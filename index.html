@@ -8,6 +8,16 @@
   <meta http-equiv="Expires" content="0" />
   <title>منصة عمر الشافعي للقرآن الكريم</title>
 
+  <!-- إعدادات التثبيت المباشر كتطبيق (PWA) للأندرويد والآيفون -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#04100e" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="عمر الشافعي" />
+  <link rel="apple-touch-icon" href="1000529194.jpg" />
+  <link rel="icon" type="image/jpeg" href="1000529194.jpg" />
+
   <!-- تحميل خطوط عربية وإسلامية في الخلفية بدون تعطيل فتح الصفحة -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -387,7 +397,7 @@
 <body class="min-h-screen flex flex-col pb-32 selection:bg-amber-500/30 selection:text-amber-200">
 
   <!-- بيانات المنصة المدمجة (مربوطة مباشرة بملف الصورة 1000529194.jpg مع رقم إصدار محدّث للجميع) -->
-  <script type="application/json" id="embeddedAppConfig">{"buildVersion":1795240000000,"brandPhoto":"1000529194.jpg","pinHash":"","extraReciters":[],"customSurahs":{}}</script>
+  <script type="application/json" id="embeddedAppConfig">{"buildVersion":1795241000000,"brandPhoto":"1000529194.jpg","pinHash":"","extraReciters":[],"customSurahs":{}}</script>
 
   <!-- إشعار منبثق (Toast) بديل لـ alert -->
   <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] hidden items-center gap-2.5 px-5 py-3 rounded-2xl shadow-2xl border text-sm font-bold transition-all max-w-[92vw]">
@@ -427,6 +437,19 @@
 
       <!-- أزرار الوصول السريع -->
       <div class="flex items-center gap-2 shrink-0">
+        <button
+          type="button"
+          id="pwaInstallBtn"
+          onclick="installPwaApp()"
+          class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md transition-colors"
+          title="تثبيت التطبيق على الشاشة الرئيسية"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span>تثبيت</span>
+        </button>
+
         <button
           type="button"
           onclick="toggleMushafPanel()"
@@ -930,20 +953,34 @@
                 class="w-full bg-[#071b17] border border-emerald-800 focus:border-amber-500 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none"
               />
             </div>
-            <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-xl text-sm">
-              تحديث الرقم السري
+            <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-[#04100e] font-extrabold py-2.5 rounded-xl text-sm">
+              حفظ الرقم السري الجديد
             </button>
           </form>
 
-          <!-- تسجيل الخروج من الإدارة -->
-          <button
-            type="button"
-            onclick="logoutAdmin()"
-            class="w-full py-2.5 rounded-xl bg-rose-600/15 hover:bg-rose-600/25 text-rose-300 border border-rose-500/30 text-xs font-bold"
-          >
+          <!-- زر قفل لوحة الإدارة -->
+          <button type="button" onclick="logoutAdmin()" class="w-full bg-rose-600/15 hover:bg-rose-600/25 text-rose-300 border border-rose-500/30 font-bold py-2.5 rounded-xl text-sm">
             قفل لوحة الإدارة والخروج
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة إرشاد التثبيت اليدوي (للآيفون أو المتصفحات التي لا تدعم التثبيت التلقائي) -->
+  <div id="pwaHelpModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4">
+    <div class="w-full max-w-xs sm:max-w-lg bg-[#071b17] border border-emerald-800/80 rounded-3xl shadow-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-emerald-900/80 flex items-center justify-between bg-[#051411]">
+        <h3 class="text-base font-extrabold text-amber-300">تثبيت التطبيق على جوالك</h3>
+        <button type="button" onclick="closePwaHelpModal()" class="p-2 rounded-xl text-emerald-300 hover:bg-emerald-900/70 hover:text-white">✕</button>
+      </div>
+      <div id="pwaHelpBody" class="p-5 space-y-3 text-sm text-emerald-100 leading-relaxed text-right">
+        <!-- يتم تعبئة الإرشادات حسب نوع الجوال تلقائياً -->
+      </div>
+      <div class="px-5 pb-4">
+        <button type="button" onclick="closePwaHelpModal()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-sm">
+          حسناً، فهمت
+        </button>
       </div>
     </div>
   </div>
@@ -1097,7 +1134,7 @@
         }
       } catch {}
       return {
-        buildVersion: 1795240000000,
+        buildVersion: 1795241000000,
         brandPhoto: "1000529194.jpg",
         pinHash: "",
         extraReciters: [],
@@ -2217,6 +2254,13 @@
       const dashView = clone.querySelector("#adminDashboardView");
       if (dashView) dashView.classList.add("hidden");
 
+      // إغلاق نافذة إرشاد PWA
+      const pwaModal = clone.querySelector("#pwaHelpModal");
+      if (pwaModal) {
+        pwaModal.classList.add("hidden");
+        pwaModal.classList.remove("flex");
+      }
+
       // مسح أي حقول حساسة حتى لا تُنشر أبداً
       ["#adminPinInput", "#newAdminPinInput", "#ghTokenInput", "#ghRepoInput"].forEach((sel) => {
         const el = clone.querySelector(sel);
@@ -2386,66 +2430,75 @@
     // =========================================================================
     // 11. تحميل الحالة الأولية وتشغيل التطبيق
     // =========================================================================
+    function enforceLockedStartup() {
+      isAdminUnlocked = false;
+      const modal = document.getElementById("adminModal");
+      if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+      const loginView = document.getElementById("adminLoginView");
+      if (loginView) loginView.classList.remove("hidden");
+      const dashView = document.getElementById("adminDashboardView");
+      if (dashView) dashView.classList.add("hidden");
+    }
+
     function loadLocalState() {
       const savedBuild = Number(safeGetLocal(STORAGE_KEYS.buildVersion) || 0);
-      const isNewerPublishedBuild = EMBEDDED_BUILD_VERSION > savedBuild;
+      const isNewerEmbedded = EMBEDDED_BUILD_VERSION > savedBuild;
 
-      if (isNewerPublishedBuild) {
+      if (isNewerEmbedded) {
+        // أولوية للنسخة الأحدث المنشورة على GitHub لتحديث جميع الجوالات فوراً
+        extraReciters = Array.isArray(EMBEDDED_EXTRA_RECITERS) ? [...EMBEDDED_EXTRA_RECITERS] : [];
+        customSurahs = (EMBEDDED_CUSTOM_SURAHS && typeof EMBEDDED_CUSTOM_SURAHS === "object") ? { ...EMBEDDED_CUSTOM_SURAHS } : {};
         applyBrandPhoto(EMBEDDED_BRAND_PHOTO || DEFAULT_BRAND_PHOTO);
-        extraReciters = [...EMBEDDED_EXTRA_RECITERS];
-        customSurahs = { ...EMBEDDED_CUSTOM_SURAHS };
 
         safeSetLocal(STORAGE_KEYS.buildVersion, String(EMBEDDED_BUILD_VERSION));
         safeSetLocal(STORAGE_KEYS.photo, EMBEDDED_BRAND_PHOTO || "");
         safeSetLocal(STORAGE_KEYS.reciters, JSON.stringify(extraReciters));
         safeSetLocal(STORAGE_KEYS.customSurahs, JSON.stringify(customSurahs));
-        if (EMBEDDED_PIN_HASH) {
-          adminPinHash = EMBEDDED_PIN_HASH;
-          safeSetLocal(STORAGE_KEYS.pinHash, EMBEDDED_PIN_HASH);
-        }
         return;
       }
 
       const savedPhoto = safeGetLocal(STORAGE_KEYS.photo);
-      if (savedPhoto) {
-        applyBrandPhoto(savedPhoto);
-      } else {
-        applyBrandPhoto(EMBEDDED_BRAND_PHOTO || DEFAULT_BRAND_PHOTO);
-      }
+      applyBrandPhoto(savedPhoto || EMBEDDED_BRAND_PHOTO || DEFAULT_BRAND_PHOTO);
 
       try {
-        const savedReciters = safeGetLocal(STORAGE_KEYS.reciters);
-        extraReciters = savedReciters ? JSON.parse(savedReciters) : [...EMBEDDED_EXTRA_RECITERS];
+        const savedRec = JSON.parse(safeGetLocal(STORAGE_KEYS.reciters) || "null");
+        extraReciters = Array.isArray(savedRec) ? savedRec : [...EMBEDDED_EXTRA_RECITERS];
       } catch {
         extraReciters = [...EMBEDDED_EXTRA_RECITERS];
       }
 
       try {
-        const savedSurahs = safeGetLocal(STORAGE_KEYS.customSurahs);
-        customSurahs = savedSurahs ? JSON.parse(savedSurahs) : { ...EMBEDDED_CUSTOM_SURAHS };
+        const savedSur = JSON.parse(safeGetLocal(STORAGE_KEYS.customSurahs) || "null");
+        customSurahs = (savedSur && typeof savedSur === "object") ? savedSur : { ...EMBEDDED_CUSTOM_SURAHS };
       } catch {
         customSurahs = { ...EMBEDDED_CUSTOM_SURAHS };
       }
     }
 
-    window.startCloudSync = async function () {
+    window.startCloudSync = function () {
       if (!window.cloudStore) return;
-      const ready = await window.cloudStore.init({
-        onBrandPhoto(photoUrl) {
-          if (photoUrl) {
-            applyBrandPhoto(photoUrl);
-            safeSetLocal(STORAGE_KEYS.photo, photoUrl);
+      window.cloudStore.init({
+        onBrandPhoto: (url) => {
+          if (url) {
+            applyBrandPhoto(url);
+            safeSetLocal(STORAGE_KEYS.photo, url);
           }
         },
-        onLibrary(data) {
+        onLibrary: (data) => {
           if (Array.isArray(data.reciters)) {
             extraReciters = data.reciters;
             safeSetLocal(STORAGE_KEYS.reciters, JSON.stringify(extraReciters));
           }
           if (data.customSurahsJson) {
             try {
-              customSurahs = JSON.parse(data.customSurahsJson);
-              safeSetLocal(STORAGE_KEYS.customSurahs, data.customSurahsJson);
+              const parsed = JSON.parse(data.customSurahsJson);
+              if (parsed && typeof parsed === "object") {
+                customSurahs = parsed;
+                safeSetLocal(STORAGE_KEYS.customSurahs, JSON.stringify(customSurahs));
+              }
             } catch {}
           }
           renderReciters();
@@ -2454,30 +2507,102 @@
             renderCustomRecitersList();
           }
         },
-        onPinHash(hash) {
+        onPinHash: (hash) => {
           if (hash) {
             adminPinHash = hash;
             safeSetLocal(STORAGE_KEYS.pinHash, hash);
           }
         }
+      }).then((ready) => {
+        const badge = document.getElementById("cloudStatusBadge");
+        if (ready && badge) {
+          badge.textContent = "متصل بالسحابة (تحديث مباشر)";
+          badge.className = "text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold";
+        }
       });
-
-      const badge = document.getElementById("cloudStatusBadge");
-      if (badge && ready) {
-        badge.className = "text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold";
-        badge.textContent = "متصل بالسحابة (حفظ تلقائي للجميع)";
-      }
     };
 
-    function enforceLockedStartup() {
-      isAdminUnlocked = false;
-      const modal = document.getElementById("adminModal");
-      if (modal) {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
+    // =========================================================================
+    // 11.5 دعم التثبيت المباشر كتطبيق (PWA) للأندرويد والآيفون
+    // =========================================================================
+    let deferredInstallPrompt = null;
+
+    function isStandaloneApp() {
+      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    }
+
+    function initPwaInstall() {
+      const btn = document.getElementById("pwaInstallBtn");
+      if (isStandaloneApp() && btn) {
+        btn.classList.add("hidden");
       }
-      document.getElementById("adminLoginView")?.classList.remove("hidden");
-      document.getElementById("adminDashboardView")?.classList.add("hidden");
+
+      // تسجيل Service Worker لتمكين التثبيت المباشر
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+      }
+
+      // التقاط حدث التثبيت التلقائي في أندرويد وكروم وإيدج
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        if (btn && !isStandaloneApp()) {
+          btn.classList.remove("hidden");
+        }
+      });
+
+      // إخفاء الزر فور اكتمال التثبيت بنجاح
+      window.addEventListener("appinstalled", () => {
+        deferredInstallPrompt = null;
+        if (btn) btn.classList.add("hidden");
+        showToast("تم تثبيت تطبيق «عمر الشافعي للقرآن الكريم» على جوالك بنجاح!");
+      });
+    }
+
+    async function installPwaApp() {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === "accepted") {
+          showToast("جاري تثبيت التطبيق على الشاشة الرئيسية...");
+        }
+        deferredInstallPrompt = null;
+        return;
+      }
+
+      // إظهار خطوات التثبيت السريعة لمستخدمي آيفون أو المتصفحات الأخرى
+      const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      const bodyEl = document.getElementById("pwaHelpBody");
+      const modal = document.getElementById("pwaHelpModal");
+      if (!bodyEl || !modal) return;
+
+      if (isIos) {
+        bodyEl.innerHTML = `
+          <p class="font-bold text-white">لتثبيت التطبيق على الآيفون (Safari):</p>
+          <p>1. اضغط على زر <strong>المشاركة (Share ⬆)</strong> أسفل الشاشة.</p>
+          <p>2. انزل للأسفل واختر <strong>إضافة إلى الشاشة الرئيسية (Add to Home Screen)</strong>.</p>
+          <p>3. اضغط <strong>إضافة (Add)</strong> وسيظهر التطبيق بأيقونته على شاشتك فوراً.</p>
+        `;
+      } else {
+        bodyEl.innerHTML = `
+          <p class="font-bold text-white">لتثبيت التطبيق على جوالك:</p>
+          <p>1. اضغط على قائمة المتصفح <strong>(⋮)</strong> بالأعلى.</p>
+          <p>2. اختر <strong>تثبيت التطبيق (Install app)</strong> أو <strong>إضافة إلى الشاشة الرئيسية</strong>.</p>
+          <p class="text-xs text-amber-300/90">ملاحظة: تأكد من رفع ملفَي <code>manifest.json</code> و <code>sw.js</code> بجانب <code>index.html</code> في GitHub ليظهر التثبيت بضغطة زر واحدة.</p>
+        `;
+      }
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closePwaHelpModal() {
+      const modal = document.getElementById("pwaHelpModal");
+      if (!modal) return;
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
     }
 
     (async function bootApp() {
@@ -2485,6 +2610,7 @@
       loadLocalState();
       renderReciters();
       renderSurahs();
+      initPwaInstall();
       await initAdminPinHash();
       if (window.cloudStore) {
         window.startCloudSync();
