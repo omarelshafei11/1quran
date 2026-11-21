@@ -386,8 +386,8 @@
 </head>
 <body class="min-h-screen flex flex-col pb-32 selection:bg-amber-500/30 selection:text-amber-200">
 
-  <!-- بيانات المنصة المدمجة (تُحفظ بصيغة JSON آمنة بدون أي تلف عند التحديث المتكرر) -->
-  <script type="application/json" id="embeddedAppConfig">{"buildVersion":0,"brandPhoto":"1000518419_2.jpg","pinHash":"","extraReciters":[],"customSurahs":{}}</script>
+  <!-- بيانات المنصة المدمجة (مربوطة مباشرة بملف الصورة 1000529194.jpg مع رقم إصدار محدّث للجميع) -->
+  <script type="application/json" id="embeddedAppConfig">{"buildVersion":1795240000000,"brandPhoto":"1000529194.jpg","pinHash":"","extraReciters":[],"customSurahs":{}}</script>
 
   <!-- إشعار منبثق (Toast) بديل لـ alert -->
   <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] hidden items-center gap-2.5 px-5 py-3 rounded-2xl shadow-2xl border text-sm font-bold transition-all max-w-[92vw]">
@@ -404,10 +404,11 @@
         <div class="flex flex-col items-center shrink-0">
           <img
             id="brandPhotoImg"
-            src="1000518419_2.jpg"
+            src="1000529194.jpg"
             alt="عمر الشافعي"
             onerror="handleBrandPhotoError(this)"
-            class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover object-center shadow-md bg-emerald-950/80"
+            style="object-position: 50% 22%;"
+            class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover shadow-md bg-emerald-950/80"
           />
           <span class="text-[10px] sm:text-[11px] font-bold text-amber-300/95 mt-1 leading-none whitespace-nowrap">
             صدقة جارية
@@ -843,10 +844,11 @@
 
             <img
               id="adminBrandPreview"
-              src="1000518419_2.jpg"
+              src="1000529194.jpg"
               alt="معاينة الصورة"
               onerror="handleBrandPhotoError(this)"
-              class="w-20 h-20 mx-auto rounded-2xl object-cover object-center bg-emerald-950 shadow-lg"
+              style="object-position: 50% 22%;"
+              class="w-20 h-20 mx-auto rounded-2xl object-cover bg-emerald-950 shadow-lg"
             />
 
             <input type="file" id="adminPhotoInput" accept="image/*" class="hidden" onchange="handleAdminPhotoUpload(event)" />
@@ -1095,8 +1097,8 @@
         }
       } catch {}
       return {
-        buildVersion: 0,
-        brandPhoto: "1000518419_2.jpg",
+        buildVersion: 1795240000000,
+        brandPhoto: "1000529194.jpg",
         pinHash: "",
         extraReciters: [],
         customSurahs: {}
@@ -1105,12 +1107,12 @@
 
     const EMBEDDED_CONFIG = readEmbeddedConfig();
     const EMBEDDED_BUILD_VERSION = Number(EMBEDDED_CONFIG.buildVersion) || 0;
-    const EMBEDDED_BRAND_PHOTO = EMBEDDED_CONFIG.brandPhoto || "1000518419_2.jpg";
+    const EMBEDDED_BRAND_PHOTO = EMBEDDED_CONFIG.brandPhoto || "1000529194.jpg";
     const EMBEDDED_PIN_HASH = EMBEDDED_CONFIG.pinHash || "";
     const EMBEDDED_EXTRA_RECITERS = Array.isArray(EMBEDDED_CONFIG.extraReciters) ? EMBEDDED_CONFIG.extraReciters : [];
     const EMBEDDED_CUSTOM_SURAHS = (EMBEDDED_CONFIG.customSurahs && typeof EMBEDDED_CONFIG.customSurahs === "object") ? EMBEDDED_CONFIG.customSurahs : {};
 
-    const DEFAULT_BRAND_PHOTO = "1000518419_2.jpg";
+    const DEFAULT_BRAND_PHOTO = "1000529194.jpg";
     const FALLBACK_BRAND_SVG = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
         <defs>
