@@ -1,0 +1,27 @@
+{
+"name": "منصة عمر الشافعي للقرآن الكريم",
+"short_name": "عمر الشافعي",
+"description": "صدقة جارية — المصحف الشريف كاملاً وتلاوات خاشعة بأصوات كبار القراء",
+"start_url": "./index.html",
+"scope": "./",
+"display": "standalone",
+"orientation": "portrait",
+"dir": "rtl",
+"lang": "ar",
+"background_color": "#04100e",
+"theme_color": "#04100e",
+"icons": [
+{
+"src": "./1000529194.jpg",
+"sizes": "192x192",
+"type": "image/jpeg",
+"purpose": "any maskable"
+},
+{
+"src": "./1000529194.jpg",
+"sizes": "512x512",
+"type": "image/jpeg",
+"purpose": "any maskable"
+}
+]
+}
